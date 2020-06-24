@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>¿Que es esto?</title>
+  <style media="screen">
+    .caja1{
+      width:80%;
+      margin: 0 auto;
+      overflow: hidden;
+      padding: 20px;
+      background-color: #d8ecf7;
+      border: 1px solid #afcde3;
+    }.caja2{
+      width:80%;
+      margin: 0 auto;
+      overflow: hidden;
+      padding: 20px;
+      background-color: #d9edc2;
+border: 1px solid #b2ce96;
+    }
+    h1, h2{
+      text-align:center;
+    }
+    .centro{
+      text-align:center;
+    }
+
+  </style>
+
+</head>
+<body>
+  <div class="caja1">
+  <h1>¿Que es la programacion lineal?</h1>
+  <p>PHPSimplex es una herramienta online para resolver problemas de programación lineal.
+     Su uso es libre y gratuito.</p>
+  <p>Esta herramienta está pensada para ayudar a los estudiantes en su aprendizaje ya
+     que no solo muestra los resultados finales sino también las operaciones intermedias.
+      Otras de sus ventajas son que no precisa de ningún lenguaje para enunciar el problema,
+       ofrece una interfaz amigable, es cercano al usuario, de manejo fácil e intuitivo,
+       no es necesario instalar nada para poder usarlo, y está disponible en varios idiomas
+       (si desea que PHPSimplex esté en su idioma póngase en contacto con nosotros).</p>
+  </div>
+  <div class="caja2">
+    <h2>Ejemplo</h2>
+    <p>Resolver mediante el método simplex el siguiente problema:</p>
+    <p class="centro">Maximizar	Z = f(x,y) = 3x + 2y</p>
+    <p class="centro">sujeto a:	2x + y ≤ 18</p>
+    <p class="centro"> 	2x + 3y ≤ 42</p>
+    <p class="centro">  3x + y  ≤ 24</p>
+    <p class="centro"> 	x ≥ 0 , y ≥ 0</p>
+    <p>Se consideran las siguientes fases:</p>
+    <ul>
+      <li>1. Realizar un cambio de variables y normalizar el signo de los términos independientes.</li>
+        <p>Se realiza un cambio en la nomenclatura de las variables. Estableciéndose la correspondencia siguiente:</p>
+      <li>x pasa a ser X1</li>
+      <li>y pasa a ser X2</li>
+      <br>
+      <li>2. Normalizar las restricciones.</li>
+      <p>Como los términos independientes de todas las restricciones son positivos no es necesario hacer nada. En caso contrario habría que multiplicar por "-1" en ambos lados de la inecuación (teniendo en cuenta que esta operación también afecta al tipo de restricción).</p>
+      <p>Se convierten las inecuaciones en ecuaciones agregando variables de holgura, exceso y artificiales según la tabla siguiente:</p>
+    </ul>
+    <center>
+    <table border="1px solid black">
+      <tr>
+        <td>Tipo de desigualdad</td>
+        <td>Tipo de variable que aparece</td>
+      </tr>
+      <tr>
+        <td>>=</td>
+        <td>-exceso  +  artificial</td>
+      </tr>
+      <tr>
+        <td>==</td>
+        <td> +  artificial</td>
+      </tr>
+      <tr>
+        <td> <= </td>
+        <td>+ holgura</td>
+      </tr>
+    </table>
+    <p>En este caso se introduce una variable de holgura (X3, X4 y X5) en cada una de las restricciones del tipo ≤, para convertirlas en igualdades, resultando el sistema de ecuaciones lineales:</p>
+    </center>
+  <p class="centro">2·X1 + X2 + X3 = 18</p>
+    <p class="centro">2·X1 + 3·X2 + X4 = 42</p>
+    <p class="centro">3·X1 + X2 + X5 = 24</p>
+    <ul>
+      <li>3. Igualar la función objetivo a cero.</li>
+    </ul>
+    <p class="centro">Z - 3·X1 - 2·X2 - 0·X3 - 0·X4 - 0·X5 = 0</p>
+    <ul>
+      <li>4. Escribir la tabla inicial del método Simplex.</li>
+      <p>La tabla inicial del método Simplex está compuesta por todos los coeficientes de las variables de decisión del problema original y las de holgura, exceso y artificiales agregadas en el paso 2 (en las columnas, siendo P0 el término independiente y el resto de variables Pi coinciden con Xi), y las restricciones (en las filas). La columna Cb contiene los coeficientes de las variables que se encuentran en la base.</p>
+      <p>La primera fila está formada por los coeficientes de la función objetivo, mientras que la última fila contiene el valor la función objetivo y los costes reducidos Zj - Cj.</p>
+      <p>La última fila se calcula como sigue: Zj = Σ(Cbi·Pj) para i = 1..m, donde si j = 0, P0 = bi y C0 = 0, y en caso contrario Pj = aij. Aunque al tratarse de la primera tabla del método Simplex y ser todos los Cb nulos se puede simplificar el cálculo, y por esta vez disponer Zj = -Cj.</p>
+      <center>
+        <img src="./tabla.png" alt="tabla de iteracion 1">
+      </center>
+    </ul>
+    <ul>
+      <li>5. Condición de parada.
+      <p>Si el objetivo es la maximización, cuando en la última fila (fila indicadora) no existe ningún valor negativo entre los costes reducidos (columnas P1 en adelante) se alcanza la condición de parada.</p>
+    <p>En tal caso se llega al final del algoritmo ya que no existe posibilidad de mejora. El valor de Z (columna P0) es la solución óptima del problema.</p>
+  <p>Otro caso posible es que en la columna de la variable entrante a la base todos los valores son negativos o nulos. Esto indica que el problema no se encuentra acotado y su solución siempre resultará mejorable. Ante esta situación no es necesario continuar iterando indefinidamente y también se puede dar por finalizado el algoritmo.</p>
+<p>De no ser así, se ejecutan los siguientes pasos de forma iterativa.</p>
+</li>
+    </ul>
+    <ul>
+      <li>6. Elección de la variable entrante y saliente de la base.
+      <p>Se determina en primer lugar la variable que entra en la base. Para ello se escoge la columna cuyo valor en la fila Z sea el menor de entre todos los negativos. En este caso sería la variable X1 (P1) de coeficiente -3.
+
+Si existiesen dos o más coeficientes iguales que cumplan la condición anterior (caso de empate), entonces se optará por aquella variable que sea básica.</p>
+<p>Una vez obtenida la variable que entra en la base, se procede a determina cual será la variable que sale de la misma. La decisión se toma en base a un sencillo cálculo: dividir cada término independiente (columna P0) entre el elemento correspondiente de la columna pivote, siempre que ambos elementos sean estrictamente positivos (mayores que cero). Se escoge la fila cuyo resultado haya resultado mínimo.
+
+Si hubiera algún elemento menor o igual a cero no se realiza dicho cociente. En caso de que todos los elementos de la columna pivote fueran de ésta condición se habría cumplido la condición de parada y el problema tendría una solución no acotada</p></li>
+    <p>En este ejemplo: 18/2 [=9] , 42/2 [=21] y 24/3 [=8]
+
+El término de la columna pivote que en la división anterior dio lugar al menor cociente positivo indica la fila de la variable de holgura que sale de la base. En este caso resulta ser X5 (P5), de coeficiente 3. Esta fila se llama fila pivote (en color verde).
+
+Si al calcular los cocientes, dos o más resultados cumplen la condición para elegir el elemento saliente de la base (caso de empate), se escoge aquella que no sea variable básica (siempre que sea es posible).
+
+La intersección de la fila pivote y columna pivote marca el elemento pivote, en este caso el 3.</p></ul>
+<ul>
+  <li>7. Actualizar la tabla.</li>
+  <p>Los nuevos coeficientes de la tabla se calculan de la siguiente manera:</p>
+  <li>En la fila del elemento pivote cada nuevo elemento se calcula como:
+Nuevo Elemento Fila Pivote = Anterior Elemento Fila Pivote / Pivote</li>
+<li>En el resto de las filas cada elemento se calcula:
+Nuevo Elemento Fila = Anterior Elemento Fila - (Anterior Elemento Fila en Columna Pivote * Nuevo Elemento Fila Pivote)</li>
+<p>Con esto se normaliza el elemento pivote y su valor pasa a ser 1, mientras que el resto de elementos de la columna pivote se anulan (análogo al método de Gauss-Jordan).
+
+Se muestran a continuación los cálculos para la fila P4:</p>
+</ul>
+<center>
+<table border="1px solid">
+  <tr>
+      <td>Anterior fila P4</td>
+      <td>42</td>
+      <td>2</td>
+      <td>3</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <td>Anterior Elemento fila en columna pivote</td>
+      <td>2</td>
+      <td>2</td>
+      <td>2</td>
+      <td>2</td>
+      <td>2</td>
+      <td>2</td>
+    </tr>
+    <tr>
+      <td></td>
+      <td>x</td>
+    <td>x</td>
+    <td>x</td>
+    <td>x</td>
+    <td>x</td>
+    <td>x</td>
+  </tr>
+    <tr>
+      <td>Nueva fila pivote</td>
+      <td>8</td>
+      <td>1</td>
+      <td>1/3</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1/3</td>
+    </tr>
+    <tr>
+      <td></td>
+      <td>=</td>
+      <td>=</td>
+      <td>=</td>
+      <td>=</td>
+      <td>=</td>
+      <td>=</td>
+    </tr>
+    <tr>
+      <td>Nueva fila P4</td>
+      <td>26</td>
+      <td>0</td>
+      <td>7/3</td>
+      <td>0</td>
+      <td>1</td>
+      <td>-2/3</td>
+    </tr>
+</table>
+</center>
+  <br>
+  <p>La tabla correspondiente a esta segunda iteración es:</p>
+  <center>
+    <img src="./grafica2.png" alt="tabla de iteracion 2">
+  </center>
+    <li>8. Al comprobar la condición de parada se observa que no se cumple ya que entre los elementos de la última fila hay uno negativo, -1. Se continúa iterando nuevamente los pasos 6 y 7.
+
+      <ul>6.1. La variable que entra en la base es X2 (P2), por ser la variable que corresponde a la columna donde se encuentra el coeficiente -1.</ul>
+      <ul>6.2. Para calcular la variable que sale, se dividen los términos de la columna P0 entre los términos correspondientes de la nueva columna pivote: 2 / 1/3 [=6] , 26 / 7/3 [=78/7] y 8 / 1/3 [=24]. Como el menor cociente positivo es 6, la variable que sale de la base es X3 (P3).</ul>
+      <ul>6.3. El elemento pivote es 1/3.</ul>
+      <ul>7. Actualizando nuevamente los valores de la tabla se obtiene:</ul>
+      </li>
+
+      <center>
+        <img src="./tabla3.png" alt="tabla de iteracion 3">
+      </center>
+
+      <li>9. Una nueva comprobación de la condición de parada revela que entre los elementos de la fila indicadora vuelve a haber uno negativo, -1. Significa que aun no se ha llegado a la solución óptima y hay que seguir iterando (pasos 6 y 7):
+          <ul>6.1. La variable que entra en la base es X5 (P5), por ser la variable que corresponde al coeficiente -1.</ul>
+          <ul>6.2. Se escoge la variable que sale calculando el cociente entre los términos de la columna de términos independientes y los términos correspondientes de la nueva columna pivote: 6/(-2) [=-3] , 12/4 [=3], y 6/1 [=6]. En esta ocasión es X4 (P4).</ul>
+          <ul>6.3. El elemento pivote es 4.</ul>
+          <ul>7. Después de actualizar todas las filas, se obtiene la tabla siguiente:</ul>
+      </li>
+
+      <center>
+        <img src="./tabla4.png" alt="tabla de iteracion 4">
+      </center>
+      <li>10. Fin del algoritmo.
+        <ul>Se observa que en la última fila todos los coeficientes son positivos cumpliéndose, por tanto la condición de parada.</ul>
+        <ul>La solución óptima viene dada por el valor de Z en la columna de los términos independientes (P0), en este ejemplo: 33. En la misma columna se puede ver el punto donde se alcanza, observando las filas correspondientes a las variables de decisión que han entrado en la base: X1 = 3 y X2 = 12.</ul>
+        <ul>Deshaciendo el cambio de variables se obtiene x = 3 e y = 12.</ul>
+      </li>
+  </div>
+
+</body>
+</html>
